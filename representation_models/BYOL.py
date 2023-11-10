@@ -38,9 +38,10 @@ if __name__ == '__main__':
         wandb.init(project = 'imitation_byol_v2_' + params['extension'], entity="nyu_vinn")
         wandb.run.name = "Pretrained_" + str(params['pretrained'])
 
+    sys.path.append(params['root_dir'])
     sys.path.append(params['root_dir'] + 'dataloaders')
-    from PushDataset import PushDataset
-    from HandleDataset import HandleDataset
+    from dataloaders.PushDataset import PushDataset
+    from dataloaders.HandleDataset import HandleDataset
 
     customAug = T.Compose([T.RandomResizedCrop(params['img_size'], scale=(0.6,1.0)),
                             T.RandomApply(torch.nn.ModuleList([T.ColorJitter(.8,.8,.8,.2)]), p=.3),
