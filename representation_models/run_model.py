@@ -33,8 +33,7 @@ class Encoder:
                     self.model.fc = Identity()
                 if params['architecture'] == 'AlexNet':
                     self.model.classifier = Identity()
-
-            encoder_state_dict = torch.load(params['root_dir'] + params['representation_model_path'],
+            encoder_state_dict = torch.load(params['representation_model_path'],
                                             map_location=torch.device('cpu'))
             self.model.load_state_dict(encoder_state_dict['model_state_dict'])
 
@@ -44,7 +43,7 @@ class Encoder:
             if params['architecture'] == 'AlexNet':
                 self.model = models.alexnet(pretrained=False)
 
-            trained_weights_path = params['root_dir'] + params['representation_model_path']
+            trained_weights_path = params['representation_model_path']
             logger.critical("Load trained BYOL weights from {}".format(trained_weights_path))
             encoder_state_dict = torch.load(trained_weights_path, map_location=torch.device('cpu'))
             self.model.load_state_dict(encoder_state_dict['model_state_dict'])

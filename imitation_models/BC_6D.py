@@ -125,7 +125,8 @@ class BC_Full:
             self.rotation_model = RotationModel(9216 * (self.params['t'] + 1)).to(self.device)
 
         curt_time = datetime.datetime.now()
-        self.time_str = "_" + str(curt_time.minute) + str(curt_time.hour) + "_" + str(curt_time.day) + str(curt_time.month)
+        self.time_str = "_Time" + str(curt_time.minute) + str(curt_time.hour) + "_Day" + str(curt_time.day) + str(curt_time.month)
+
         os.makedirs(params['save_dir'], exist_ok=True)
         self.save_dir = params["save_dir"] + params['run_name'] + self.time_str + "/"
         os.makedirs(self.save_dir, exist_ok=True)

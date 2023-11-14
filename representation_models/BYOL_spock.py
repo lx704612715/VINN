@@ -47,7 +47,7 @@ if __name__ == '__main__':
     params = params.TrainingConfig.__dict__
 
     curt_time = datetime.datetime.now()
-    time_str = "_" + str(curt_time.minute) + str(curt_time.hour) + "_" + str(curt_time.day) + str(curt_time.month)
+    time_str = "_Time" + str(curt_time.minute) + str(curt_time.hour) + "_Day" + str(curt_time.day) + str(curt_time.month)
 
     if params["wandb"] == 1:
         wandb.init(project='BYOL', config=params)
@@ -98,15 +98,16 @@ if __name__ == '__main__':
     for epoch in tqdm.tqdm(range(epochs), leave=False):
         epoch_loss = 0
         for i, data in enumerate(dataLoader, 0):
+            img_tensor = data[0]
             if params['gpu'] == 1:
-                loss = learner(data.float().to(device))
+                loss = learner(img_tensor.float().to(device))
             else:
-                loss = learner(data)
+                loss = learner(img_tensor)
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
             learner.update_moving_average()
-            epoch_loss += loss.item() * data.shape[0]
+            epoch_loss += loss.item() * img_tensor.shape[0]
 
         logger.info('train loss {}'.format(epoch_loss / len(img_data)))
         export_path = save_dir + "epoch_" + str(epoch) + "_"

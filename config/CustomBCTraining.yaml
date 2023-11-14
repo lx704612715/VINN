@@ -19,7 +19,7 @@ wandb: 1
 gpu: 1
 hidden_layer: avgpool
 pretrained: 1
-train_representation: 1  # train intermediate representation network
+train_representation: 0  # train intermediate representation network
 
 # BC configurations
 t: 0

@@ -65,7 +65,7 @@ class CustomDataset(Dataset):
         return max(len(self.img_tensors), len(self.representations))
 
     def __getitem__(self, index):
-        if self.params['train_representation'] == 1:
-            return self.img_tensors[index], self.translation[index], self.rotation[index]
-        else:
+        if self.encoder is not None and self.params["train_representation"] == 0:
             return self.representations[index], self.translation[index], self.rotation[index]
+        else:
+            return self.img_tensors[index], self.translation[index], self.rotation[index]
