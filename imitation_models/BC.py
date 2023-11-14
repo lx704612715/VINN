@@ -54,8 +54,8 @@ class BC:
         sys.path.append(params['root_dir'] + 'dataloaders')
         from run_model import Encoder
         from HandleDataset import HandleDataset
-        from HandleDataset_temporal import HandleDatasetTemporal
-        from PushDataset_temporal import PushDatasetTemporal
+        # from HandleDataset_temporal import HandleDatasetTemporal
+        # from PushDataset_temporal import PushDatasetTemporal
         from PushDataset import PushDataset
         encoder = Encoder(params)
 
@@ -67,7 +67,7 @@ class BC:
                 wandb.init(project = 'Stack BC', entity="nyu_vinn")
                 wandb.run.name = 'Stack_BC_' + str(self.params['pretrained'])
             if(self.params['dataset'] == 'HandleData'):
-                wandb.init(project = 'Handle BC', entity="nyu_vinn")
+                wandb.init(project = 'Handle BC')
                 wandb.run.name = 'Handle_BC_' + str(self.params['pretrained'])
 
         if(self.params['dataset'] == 'HandleData'):

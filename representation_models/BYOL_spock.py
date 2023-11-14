@@ -2,10 +2,11 @@
 modified Phil Wang's code
 url: https://github.com/lucidrains/byol-pytorch
 '''
-
+import os
 
 import torch
 import datetime
+from loguru import logger
 from torchvision import models
 from torchvision import transforms as T
 from torch.utils.data import DataLoader
@@ -38,7 +39,7 @@ class TrainingConfig:
     bc_model: str
     pretrained: int
     bc_model = None
-    representation: int
+    train_representation: int
 
 
 if __name__ == '__main__':
@@ -50,7 +51,7 @@ if __name__ == '__main__':
     time_str = "_" + str(curt_time.minute) + str(curt_time.hour) + "_" + str(curt_time.day) + str(curt_time.month)
 
     if params["wandb"] == 1:
-        wandb.init(project='vinn', config=params)
+        wandb.init(project='BYOL', config=params)
         wandb.run.name = time_str + str(params["run_name"])
 
     sys.path.append(params['root_dir'])
@@ -97,6 +98,11 @@ if __name__ == '__main__':
     epochs = params['epochs']
     best_loss = torch.inf
 
+    # export model to the dir with the date as file name
+    os.makedirs(params['save_dir'], exist_ok=True)
+    save_dir = params["save_dir"] + time_str
+    os.makedirs(save_dir, exist_ok=True)
+
     for epoch in tqdm.tqdm(range(epochs), leave=False):
         epoch_loss = 0
         for i, data in enumerate(dataLoader, 0):
@@ -110,13 +116,14 @@ if __name__ == '__main__':
             learner.update_moving_average()
             epoch_loss += loss.item() * data.shape[0]
 
-        print('train loss {}'.format(epoch_loss / len(img_data)))
+        logger.info('train loss {}'.format(epoch_loss / len(img_data)))
+        export_path = save_dir + params["run_name"] + "_BYOL_" + str(epoch)
+
         if best_loss < epoch_loss:
-            torch.save({'model_state_dict': model.state_dict()}, params['save_dir'] + "BYOL_" + str(epoch) + "best_model.pt")
+            torch.save({'model_state_dict': model.state_dict()}, export_path + "best_model.pt")
 
         if params['wandb'] == 1:
             wandb.log({'train loss': epoch_loss / len(img_data)})
 
         if epoch % 20 == 0:
-            torch.save({'model_state_dict': model.state_dict()}, params['save_dir']+'BYOL_' + str(epoch) + '_' +
-                       params['extension'] + '_pretrained_' + str(params['pretrained']) + '.pt')
+            torch.save({'model_state_dict': model.state_dict()}, export_path + '.pt')

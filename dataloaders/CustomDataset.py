@@ -1,18 +1,13 @@
-import json
-import glob
-import random
-import numpy as np
 import os
-import pandas as pd
-
-from tqdm import tqdm
-from PIL import Image, ImageFile
+import random
 from collections import defaultdict
 
+import pandas as pd
 import torch
 import torchvision.transforms as T
-from torchvision.io import read_image
+from PIL import Image, ImageFile
 from torch.utils.data import Dataset
+
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
@@ -60,7 +55,7 @@ class CustomDataset(Dataset):
             self.rotation.append(torch.FloatTensor(action[3:6]))
             self.gripper.append(torch.FloatTensor(gripper_state))
 
-            if self.params['representation'] == 1:
+            if self.params['train_representation'] == 1:
                 self.img_tensors.append(img_tensor.detach())
             else:
                 representation = self.encoder.encode(img_tensor)[0]
@@ -70,7 +65,7 @@ class CustomDataset(Dataset):
         return max(len(self.img_tensors), len(self.representations))
 
     def __getitem__(self, index):
-        if self.params['representation'] == 1:
+        if self.params['train_representation'] == 1:
             if self.params['bc_model'] == 'BC_Full':
                 return self.img_tensors[index], self.translation[index], self.rotation[index], self.gripper[index], self.paths[index]
             else:

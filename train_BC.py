@@ -34,15 +34,16 @@ sys.path.append(params['root_dir'] + 'imitation_models')
 from BC import BC
 from BC_full import BC_Full
 
+
 def run_bc_model(params):
     all_losses = []
     all_means = []
     all_stds = []
 
-    if(params['bc_model'] == 'BC_rep'):
+    if params['bc_model'] == 'BC':
         fractions = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
         bc = BC(params)
-    elif(params['bc_model'] == 'BC_end_to_end'):
+    elif params['bc_model'] == 'BC_Full':
         fractions = [0.05, 0.1, 0.3, 0.7, 1.0]
         bc = BC_Full(params)
 
@@ -64,6 +65,7 @@ def run_bc_model(params):
     np.savetxt(f"../results/{params['bc_model']}_losses_{suffix}", np.array(all_losses), delimiter=",")
     np.savetxt(f"../results/{params['bc_model']}_means_{suffix}", np.array(all_means), delimiter=",")
     np.savetxt(f"../results/{params['bc_model']}_stds_{suffix}", np.array(all_stds), delimiter=",")
+
 
 if __name__ == '__main__':
     run_bc_model(params)
