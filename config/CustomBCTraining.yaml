@@ -2,7 +2,7 @@
 #experiment_path: "/home/lx/experiments/lx/exp_corrective/" ## this value is unused
 #experiment_name: "0311_insertion"
 
-run_name: BC
+run_name: BC_model
 # path to the VINN folder, source folder
 dataset: CustomDataset
 extension: Custom
@@ -13,7 +13,7 @@ save_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/
 # training configuration
 lr: 3e-4  # learning rate
 img_size: 224
-batch_size: 168
+batch_size: 8
 epochs: 100
 wandb: 1
 gpu: 1
@@ -27,8 +27,9 @@ model: BYOL
 bc_model: None
 train_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/train_dataset/
 val_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/val_dataset/
-representation_model_path: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/
+representation_model_path: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/InsertionPuzzle_718_1411/epoch_0_.pt
 layer: avgpool
 architecture: ResNet
 eval: 0
+pretrain_encoder: 1   # pretrained ResNet on ImageNet
 

@@ -45,7 +45,6 @@ class TrainingConfig:
 if __name__ == '__main__':
     params = SpockBuilder(TrainingConfig).generate()
     params = params.TrainingConfig.__dict__
-    params["representation"] = 1
 
     curt_time = datetime.datetime.now()
     time_str = "_" + str(curt_time.minute) + str(curt_time.hour) + "_" + str(curt_time.day) + str(curt_time.month)
@@ -56,8 +55,6 @@ if __name__ == '__main__':
 
     sys.path.append(params['root_dir'])
     sys.path.append(params['root_dir'] + 'dataloaders')
-    from dataloaders.PushDataset import PushDataset
-    from dataloaders.HandleDataset import HandleDataset
     from dataloaders.CustomDataset import CustomDataset
 
     customAug = T.Compose([T.RandomResizedCrop(params['img_size'], scale=(0.6, 1.0)),
@@ -68,12 +65,7 @@ if __name__ == '__main__':
                                mean=torch.tensor([0.485, 0.456, 0.406]),
                                std=torch.tensor([0.229, 0.224, 0.225]))])
 
-    if params['dataset'] == 'HandleData':
-        img_data = HandleDataset(params, None)
-    if params['dataset'] == 'PushDataset' or params['dataset'] == 'StackDataset':
-        img_data = PushDataset(params, None)
-    if params['dataset'] == 'CustomDataset':
-        img_data = CustomDataset(params, None)
+    img_data = CustomDataset(params, None)
 
     if params['pretrained'] == 1:
         model = models.resnet50(pretrained=True)
@@ -100,7 +92,7 @@ if __name__ == '__main__':
 
     # export model to the dir with the date as file name
     os.makedirs(params['save_dir'], exist_ok=True)
-    save_dir = params["save_dir"] + time_str
+    save_dir = params["save_dir"] + params['run_name'] + time_str + "/"
     os.makedirs(save_dir, exist_ok=True)
 
     for epoch in tqdm.tqdm(range(epochs), leave=False):
@@ -117,9 +109,9 @@ if __name__ == '__main__':
             epoch_loss += loss.item() * data.shape[0]
 
         logger.info('train loss {}'.format(epoch_loss / len(img_data)))
-        export_path = save_dir + params["run_name"] + "_BYOL_" + str(epoch)
+        export_path = save_dir + "epoch_" + str(epoch) + "_"
 
-        if best_loss < epoch_loss:
+        if best_loss < epoch_loss and epoch >= 20:
             torch.save({'model_state_dict': model.state_dict()}, export_path + "best_model.pt")
 
         if params['wandb'] == 1:

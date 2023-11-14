@@ -35,11 +35,12 @@ class TrainingBCConfig:
     layer: str = "avgpool"
     architecture: str = "ResNet"
     eval: int = 0
+    pretrain_encoder: int = 1
 
 
 if __name__ == '__main__':
     params = SpockBuilder(TrainingBCConfig).generate()
-    params = params.TrainingConfig.__dict__
+    params = params.TrainingBCConfig.__dict__
 
     sys.path.append(params['root_dir'] + 'imitation_models')
     from BC_6D import BC_Full

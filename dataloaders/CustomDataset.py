@@ -66,9 +66,6 @@ class CustomDataset(Dataset):
 
     def __getitem__(self, index):
         if self.params['train_representation'] == 1:
-            if self.params['bc_model'] == 'BC_Full':
-                return self.img_tensors[index], self.translation[index], self.rotation[index], self.gripper[index], self.paths[index]
-            else:
-                return self.img_tensors[index]
+            return self.img_tensors[index], self.translation[index], self.rotation[index]
         else:
-            return self.representations[index], self.translation[index], self.rotation[index], self.gripper[index], self.paths[index]
+            return self.representations[index], self.translation[index], self.rotation[index]

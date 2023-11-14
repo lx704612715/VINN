@@ -1,14 +1,15 @@
+import os
+import sys
+import wandb
 import torch
+import datetime
+import torch.nn.functional as F
+
 from torch import nn
 from torchvision import models
-import torch.nn.functional as F
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from torchvision import transforms as T
-
-import sys
-import wandb
 
 
 class Identity(nn.Module):
@@ -67,7 +68,7 @@ class GripperModel(nn.Module):
 
 class BC_Full:
     def __init__(self, params):
-        self.params = params.__dict__
+        self.params = params
         self.augment = T.Compose([T.RandomResizedCrop(params['img_size'], scale=(0.6, 1.0)),
                                   T.RandomApply(torch.nn.ModuleList([T.ColorJitter(.8, .8, .8, .2)]), p=.3),
                                   T.RandomGrayscale(p=0.2),
@@ -123,6 +124,12 @@ class BC_Full:
             self.translation_model = TranslationModel(9216 * (self.params['t'] + 1)).to(self.device)
             self.rotation_model = RotationModel(9216 * (self.params['t'] + 1)).to(self.device)
 
+        curt_time = datetime.datetime.now()
+        self.time_str = "_" + str(curt_time.minute) + str(curt_time.hour) + "_" + str(curt_time.day) + str(curt_time.month)
+        os.makedirs(params['save_dir'], exist_ok=True)
+        self.save_dir = params["save_dir"] + params['run_name'] + self.time_str + "/"
+        os.makedirs(self.save_dir, exist_ok=True)
+
     def train(self):
         for epoch in tqdm(range(self.params['epochs'])):
             epoch_translation_loss_train = 0
@@ -132,10 +139,10 @@ class BC_Full:
                 self.optimizer.zero_grad()
 
                 if self.params['train_representation'] == 1:
-                    image, translation, rotation, gripper, path = data
+                    image, translation, rotation = data
                     representation = self.resnet(self.augment(image).float().to(self.device))
                 else:
-                    representation, translation, rotation, gripper, path = data
+                    representation, translation, rotation = data
 
                 pred_translation = self.translation_model(representation.float().to(self.device))
                 pred_rotation = self.rotation_model(representation.float().to(self.device))
@@ -170,12 +177,12 @@ class BC_Full:
         epoch_orientation_loss_val = 0
 
         for i, data in enumerate(self.dataLoader_val, 0):
-            image, translation, rotation, gripper, path = data
+            image, translation, rotation = data
             if self.params['train_representation'] == 1:
-                image, translation, rotation, gripper, path = data
+                image, translation, rotation = data
                 representation = self.resnet(self.augment(image).float().to(self.device))
             else:
-                representation, translation, rotation, gripper, path = data
+                representation, translation, rotation = data
 
             pred_translation = self.translation_model(representation.float().to(self.device))
             pred_rotation = self.rotation_model(representation.float().to(self.device))
@@ -234,12 +241,12 @@ class BC_Full:
                    'translation val': trans_loss_val, 'rotation val': rot_loss_val})
 
     def save_model(self, epoch, name=None):
-        weights_name = name + "_" + self.params["run_name"] + "_pretrained_" + str(self.params['pretrain_encoder']) + '_' + str(epoch) + '.pt'
-        torch.save({'model_state_dict': self.translation_model.state_dict()},
-                   self.params['save_dir'] + 'translational_model' + weights_name)
-        torch.save({'model_state_dict': self.rotation_model.state_dict()},
-                   self.params['save_dir'] + 'rotational_model' + weights_name)
+        if name is None:
+            weights_name = self.params["run_name"] + '_' + str(epoch) + '.pt'
+        else:
+            weights_name = name + self.params["run_name"] + '_' + str(epoch) + '.pt'
 
+        torch.save({'model_state_dict': self.translation_model.state_dict()}, self.save_dir + 'translation_m' + weights_name)
+        torch.save({'model_state_dict': self.rotation_model.state_dict()}, self.save_dir + 'rotation_m' + weights_name)
         if self.params["train_representation"] == 1:
-            torch.save({'model_state_dict': self.resnet.state_dict()},
-                       self.params['save_dir'] + 'trained_resnet_' + weights_name)
+            torch.save({'model_state_dict': self.resnet.state_dict()}, self.save_dir + 'trained_resnet_' + weights_name)

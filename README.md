@@ -36,6 +36,12 @@ pip3 install byol-pytorch
 ### Downloadable dataset
 All our data can be found at this url: [https://drive.google.com/drive/folders/11-sAN2a-F7G-lvx6qRXnrWjlxNb0PH1m](https://drive.google.com/drive/folders/11-sAN2a-F7G-lvx6qRXnrWjlxNb0PH1m).
 
+## Customer Example Commands
+
+```
+python3 representation_models/BYOL_spock.py -c config/CustomBYOLTraining.yaml --TrainingConfig.run_name InsertionPuzzle
+```
+
 ## Example Commands
 
 <details><summary>BYOL - Handle Datset/Door Opening</summary></summary>
