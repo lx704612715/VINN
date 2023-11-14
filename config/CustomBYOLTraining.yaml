@@ -1,0 +1,23 @@
+# Demonstration Folder
+#experiment_path: "/home/lx/experiments/lx/exp_corrective/" ## this value is unused
+#experiment_name: "0311_insertion"
+
+run_name: BYOL
+# path to the VINN folder, source folder
+dataset: CustomDataset
+extension: Custom
+root_dir: /path/to/non_parametric_imitation/
+folder:  /home/lx/experiments/lx/exp_corrective/0311_insertion/dataset # to the image train dir
+save_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/dataset
+
+# training configuration
+lr: 3e-4  # learning rate
+img_size: 224
+batch_size: 168
+epochs: 100
+wandb: 1
+gpu: 1
+hidden_layer: avgpool
+pretrained: 1
+bc_model: None
+representation: 1  # train intermediate representation network
