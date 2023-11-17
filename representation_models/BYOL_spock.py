@@ -61,9 +61,8 @@ if __name__ == '__main__':
                            T.RandomApply(torch.nn.ModuleList([T.ColorJitter(.8, .8, .8, .2)]), p=.3),
                            T.RandomGrayscale(p=0.2),
                            T.RandomApply(torch.nn.ModuleList([T.GaussianBlur((3, 3), (1.0, 2.0))]), p=0.2),
-                           T.Normalize(
-                               mean=torch.tensor([0.485, 0.456, 0.406]),
-                               std=torch.tensor([0.229, 0.224, 0.225]))])
+                           T.Normalize(mean=torch.tensor([0.485, 0.456, 0.406]),
+                                       std=torch.tensor([0.229, 0.224, 0.225]))])
 
     img_data = CustomDataset(params, None)
 

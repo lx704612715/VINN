@@ -14,7 +14,7 @@ save_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/
 lr: 3e-4  # learning rate
 img_size: 224
 batch_size: 8
-epochs: 100
+epochs: 1000
 wandb: 1
 gpu: 1
 hidden_layer: avgpool
@@ -27,7 +27,7 @@ model: BYOL
 bc_model: None
 train_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/train_dataset/
 val_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/val_dataset/
-representation_model_path: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/InsertionPuzzle_718_1411/epoch_0_.pt
+representation_model_path: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/InsertionPuzzle_Time1719_Day1411/epoch_300_.pt
 layer: avgpool
 architecture: ResNet
 eval: 0
