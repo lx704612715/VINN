@@ -7,8 +7,8 @@ run_name: BYOL
 dataset: CustomDataset
 extension: Custom
 root_dir: /home/lx/ha_ws/src/VINN/
-folder:  /home/lx/experiments/lx/exp_corrective/0311_insertion/train_dataset/ # to the image train dir
-save_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/
+folder:  /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_dataset/ # to the image train dir
+save_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/
 
 # training configuration
 lr: 3e-4  # learning rate

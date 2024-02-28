@@ -7,8 +7,8 @@ run_name: BC_model
 dataset: CustomDataset
 extension: Custom
 root_dir: /home/lx/ha_ws/src/VINN/
-folder:  /home/lx/experiments/lx/exp_corrective/0311_insertion/train_dataset/ # to the image train dir
-save_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/
+folder:  /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/dataset/ # to the image train dir
+save_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/
 
 # training configuration
 lr: 3e-4  # learning rate
@@ -25,9 +25,9 @@ train_representation: 0  # train intermediate representation network
 t: 0
 model: BYOL
 bc_model: None
-train_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/train_dataset/
-val_dir: /home/lx/experiments/lx/exp_corrective/0311_insertion/val_dataset/
-representation_model_path: /home/lx/experiments/lx/exp_corrective/0311_insertion/BYOL_Training/InsertionPuzzle_Time1719_Day1411/epoch_300_.pt
+train_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/train_dataset/
+val_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/val_dataset/
+representation_model_path: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/InsertionPuzzle_Time1719_Day1411/epoch_300_.pt
 layer: avgpool
 architecture: ResNet
 eval: 0
