@@ -171,7 +171,7 @@ class BC_Full:
                 self.save_model(epoch)
             if epoch >= 20 and self.min_val_loss < epoch_translation_loss_val:
                 self.save_model(epoch, name="best_model")
-                self.min_val_loss = min(self.min_val_loss, epoch_translation_loss_val)
+                self.min_val_loss = epoch_translation_loss_val
 
     def val(self):
         epoch_translation_loss_val = 0

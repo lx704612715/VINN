@@ -11,15 +11,15 @@ folder:  /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/dataset/ # t
 save_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/
 
 # training configuration
-lr: 3e-4  # learning rate
+lr: 0.0001  # learning rate
 img_size: 224
 batch_size: 8
-epochs: 1000
+epochs: 10000
 wandb: 1
 gpu: 1
 hidden_layer: avgpool
 pretrained: 1
-train_representation: 0  # train intermediate representation network
+train_representation: 1  # train intermediate representation network
 
 # BC configurations
 t: 0
@@ -27,7 +27,7 @@ model: BYOL
 bc_model: None
 train_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BC_train_dataset
 val_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BC_val_dataset
-representation_model_path: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/InsertionPuzzle_Time815_Day282/epoch_80_.pt
+representation_model_path: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/InsertionPuzzle_Time812_Day43/epoch_159_best_model.pt
 layer: avgpool
 architecture: ResNet
 eval: 0

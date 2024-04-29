@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     optimizer = torch.optim.Adam(learner.parameters(), lr=params['lr'])
     epochs = params['epochs']
-    best_loss = torch.inf
+    best_loss = -torch.inf
 
     # export model to the dir with the date as file name
     os.makedirs(params['save_dir'], exist_ok=True)
@@ -112,6 +112,7 @@ if __name__ == '__main__':
         export_path = save_dir + "epoch_" + str(epoch) + "_"
 
         if best_loss < epoch_loss and epoch >= 20:
+            best_loss = epoch_loss
             torch.save({'model_state_dict': model.state_dict()}, export_path + "best_model.pt")
 
         if params['wandb'] == 1:
