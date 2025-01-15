@@ -4,11 +4,11 @@
 
 run_name: BYOL
 # path to the VINN folder, source folder
-dataset: CustomDataset
+dataset: HD5FDataset
 extension: Custom
 root_dir: /home/lx/ha_ws/src/VINN/
-folder:  /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_dataset/ # to the image train dir
-save_dir: /home/lx/experiments/lx/exp_corrective/3101InsertionPuzzle/BYOL_Training/
+folder:  /home/lx/experiments/lx/act/ACT_Panda/data/insertion_puzzle/ # to the image train dir
+save_dir: /home/lx/experiments/lx/act/ACT_Panda/checkpoints/VINN_puzzle/
 
 # training configuration
 lr: 3e-4  # learning rate

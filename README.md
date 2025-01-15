@@ -1,6 +1,6 @@
 # Custom Modification 
 ## Training Pipeline 
-### Record human demonstration with proprioception, F/T measurement and images data -> Repo of Contact_LfD
+## Record human demonstration -> Repo of Contact_LfD
 ```bash
 # start panda_HA and two realsense cameras
 roslaunch panda_hybrid_automaton_manager panda_ha.launch
@@ -10,7 +10,7 @@ python3 src/contact_lfd/LfDIP/exploration/vision_data_generator.py --gen_data 1
 # After recording several demonstrations, merge the separate runs into a dataset
 python3 src/contact_lfd/LfDIP/exploration/vision_data_generator.py --gen_data 0 --run_id 0 1 2 --dataset_name train_dataset
 ```
-## Training -> -> Repo of VINN
+## Training -> Repo of VINN
 ### Train BYOL model
 * Modify the config file config/CustomBYOLTraining.yaml
   * Change the **folder_dir** to the dataset we generated before

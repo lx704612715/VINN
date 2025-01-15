@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     sys.path.append(params['root_dir'])
     sys.path.append(params['root_dir'] + 'dataloaders')
-    from dataloaders.CustomDataset import CustomDataset
+    from dataloaders.HD5FDataset import HD5FDataset
 
     customAug = T.Compose([T.RandomResizedCrop(params['img_size'], scale=(0.6, 1.0)),
                            T.RandomApply(torch.nn.ModuleList([T.ColorJitter(.8, .8, .8, .2)]), p=.3),
@@ -64,7 +64,7 @@ if __name__ == '__main__':
                            T.Normalize(mean=torch.tensor([0.485, 0.456, 0.406]),
                                        std=torch.tensor([0.229, 0.224, 0.225]))])
 
-    img_data = CustomDataset(params, None)
+    img_data = HD5FDataset(params, None)
 
     if params['pretrained'] == 1:
         model = models.resnet50(pretrained=True)
