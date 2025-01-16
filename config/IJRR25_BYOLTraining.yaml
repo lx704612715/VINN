@@ -14,7 +14,7 @@ save_dir: /home/lx/experiments/lx/act/ACT_Panda/checkpoints/VINN_puzzle/
 lr: 3e-4  # learning rate
 img_size: 224
 batch_size: 8
-epochs: 1000
+epochs: 10000
 wandb: 1
 gpu: 1
 hidden_layer: avgpool
